@@ -1,6 +1,6 @@
 # Practice Test Automation – Playwright + TypeScript
 
-[![Playwright Tests](https://github.com/<your-username>/practice-test-automation/actions/workflows/playwright.yml/badge.svg)](https://github.com/<your-username>/practice-test-automation/actions/workflows/playwright.yml)
+[![Playwright Tests](https://github.com/Lylla-cloud/playwright2/actions/workflows/playwright.yml/badge.svg?branch=main)](https://github.com/Lylla-cloud/playwright2/actions/workflows/playwright.yml)
 
 End-to-end test automation for [Practice Test Automation](https://practicetestautomation.com/), built with [Playwright](https://playwright.dev/) and TypeScript using the Page Object Model (POM). Tests run on **Chromium** and **Firefox**, locally and in GitHub Actions.
 
