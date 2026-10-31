@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 const ALL_LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 
@@ -37,11 +37,15 @@ export class TablePage {
   }
 
   // option is the visible text, e.g. 'Any', '5,000+', '10,000+', '50,000+'
+    // option is the visible text: 'Any', '5,000+', '10,000+' or '50,000+'
   async filterByMinEnrollments(option: string) {
-    await this.page
-      .getByRole('group', { name: 'Min enrollments' })
-      .getByRole('combobox')
-      .selectOption({ label: option });
+    const dropdown = this.page.locator('#enrollDropdown');
+
+    await dropdown.getByRole('button').click();
+    await dropdown.getByRole('option', { name: option, exact: true }).click();
+
+    // The button label updates once the choice is applied
+    await expect(dropdown.locator('.dropdown-label')).toHaveText(option);
   }
 
   async rowCount(): Promise<number> {
