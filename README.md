@@ -1,4 +1,4 @@
-# Practice Test Automation – Playwright + TypeScript
+# Automation-Playwright-Typescript
 
 [![Playwright Tests](https://github.com/Lylla-cloud/playwright2/actions/workflows/playwright.yml/badge.svg?branch=main)](https://github.com/Lylla-cloud/playwright2/actions/workflows/playwright.yml)
 
