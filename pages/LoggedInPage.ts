@@ -10,4 +10,8 @@ export class LoggedInPage {
     this.successText = page.getByText('successfully logged in');
     this.logoutLink = page.getByRole('link', { name: 'Log out' });
   }
+
+  async logout() {
+    await this.logoutLink.click();
+  }
 }

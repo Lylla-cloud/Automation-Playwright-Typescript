@@ -29,6 +29,17 @@ test.describe('Login page', () => {
     await expect(loggedInPage.logoutLink).toBeVisible();
   });
 
+  test('user can log out and return to the login page', async ({ loginPage, loggedInPage, page }) => {
+    await loginPage.login('student', 'Password123');
+    await expect(page).toHaveURL(/logged-in-successfully/);
+
+    await loggedInPage.logout();
+
+    await expect(page).toHaveURL(/practice-test-login/);
+    await expect(loginPage.usernameInput).toBeVisible();
+    await expect(loginPage.submitButton).toBeVisible();
+  });
+
   for (const { name, username, password, expectedError } of invalidLogins) {
     test(`login fails: ${name}`, async ({ loginPage, page }) => {
       await loginPage.login(username, password);
