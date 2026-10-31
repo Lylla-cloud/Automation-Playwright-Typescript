@@ -36,6 +36,14 @@ export class TablePage {
     await this.selectLevels(level);
   }
 
+  // option is the visible text, e.g. 'Any', '5,000+', '10,000+', '50,000+'
+  async filterByMinEnrollments(option: string) {
+    await this.page
+      .getByRole('group', { name: 'Min enrollments' })
+      .getByRole('combobox')
+      .selectOption({ label: option });
+  }
+
   async rowCount(): Promise<number> {
     return this.visibleRows.count();
   }
@@ -43,5 +51,10 @@ export class TablePage {
   async columnValues(columnIndex: number): Promise<string[]> {
     const cells = this.visibleRows.locator(`td:nth-child(${columnIndex})`);
     return (await cells.allTextContents()).map(t => t.trim());
+  }
+
+  async columnNumbers(columnIndex: number): Promise<number[]> {
+    const values = await this.columnValues(columnIndex);
+    return values.map(v => Number(v.replace(/,/g, '')));
   }
 }
