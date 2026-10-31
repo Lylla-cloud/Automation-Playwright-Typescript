@@ -1,5 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 
+const ALL_LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
+
 export class TablePage {
   readonly page: Page;
   readonly headers: Locator;
@@ -16,7 +18,26 @@ export class TablePage {
   }
 
   async filterByLanguage(language: string) {
-    await this.page.getByLabel(language).check();
+    await this.page
+      .getByRole('group', { name: 'Language' })
+      .getByLabel(language, { exact: true })
+      .check();
+  }
+
+  // Ticks the given levels and unticks all the others
+  async selectLevels(...selected: string[]) {
+    const group = this.page.getByRole('group', { name: 'Level' });
+    for (const level of ALL_LEVELS) {
+      await group.getByLabel(level, { exact: true }).setChecked(selected.includes(level));
+    }
+  }
+
+  async filterByLevel(level: string) {
+    await this.selectLevels(level);
+  }
+
+  async rowCount(): Promise<number> {
+    return this.visibleRows.count();
   }
 
   async columnValues(columnIndex: number): Promise<string[]> {

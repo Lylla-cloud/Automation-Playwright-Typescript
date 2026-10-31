@@ -10,7 +10,7 @@ End-to-end test automation for [Practice Test Automation](https://practicetestau
 |------|-----------------|-----------|
 | Login | `/practice-test-login/` | Valid login, invalid username, invalid password |
 | Exceptions | `/practice-test-exceptions/` | Edit and save Row 1, add and save Row 2 (delayed element) |
-| Table | `/practice-test-table/` | Header validation, filter by language |
+| Table | `/practice-test-table/` | Header validation, language, level and combined filters |
 
 ## Project structure
 
@@ -94,7 +94,8 @@ Tests run automatically on every push and pull request via GitHub Actions. The H
 
 - [ ] Data-driven negative login tests
 - [ ] Logout scenario
-- [ ] Additional table filters (level, enrollment range)
+- [x] Table filters: language, level (checkbox), combined
+- [ ] Enrollment filter, sorting and reset
 - [ ] Test tagging for smoke and regression runs
 
 ## Author
