@@ -1,5 +1,21 @@
 import { test, expect } from '../fixtures';
 
+type InvalidLogin = {
+  name: string;
+  username: string;
+  password: string;
+  expectedError: string;
+};
+
+const invalidLogins: InvalidLogin[] = [
+  { name: 'wrong username',    username: 'wrongUser', password: 'Password123',   expectedError: 'Your username is invalid!' },
+  { name: 'wrong password',    username: 'student',   password: 'wrongPassword', expectedError: 'Your password is invalid!' },
+  { name: 'empty username',    username: '',          password: 'Password123',   expectedError: 'Your username is invalid!' },
+  { name: 'empty password',    username: 'student',   password: '',              expectedError: 'Your password is invalid!' },
+  { name: 'both fields empty', username: '',          password: '',              expectedError: 'Your username is invalid!' },
+  { name: 'username in caps',  username: 'STUDENT',   password: 'Password123',   expectedError: 'Your username is invalid!' },
+];
+
 test.describe('Login page', () => {
   test.beforeEach(async ({ loginPage }) => {
     await loginPage.goto();
@@ -13,13 +29,12 @@ test.describe('Login page', () => {
     await expect(loggedInPage.logoutLink).toBeVisible();
   });
 
-  test('invalid username shows an error', async ({ loginPage }) => {
-    await loginPage.login('wrongUser', 'Password123');
-    await expect(loginPage.errorMessage).toHaveText('Your username is invalid!');
-  });
+  for (const { name, username, password, expectedError } of invalidLogins) {
+    test(`login fails: ${name}`, async ({ loginPage, page }) => {
+      await loginPage.login(username, password);
 
-  test('invalid password shows an error', async ({ loginPage }) => {
-    await loginPage.login('student', 'wrongPassword');
-    await expect(loginPage.errorMessage).toHaveText('Your password is invalid!');
-  });
+      await expect(loginPage.errorMessage).toHaveText(expectedError);
+      await expect(page).not.toHaveURL(/logged-in-successfully/);
+    });
+  }
 });
