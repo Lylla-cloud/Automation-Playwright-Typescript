@@ -36,8 +36,7 @@ export class TablePage {
     await this.selectLevels(level);
   }
 
-  // option is the visible text, e.g. 'Any', '5,000+', '10,000+', '50,000+'
-    // option is the visible text: 'Any', '5,000+', '10,000+' or '50,000+'
+  // option is the visible text: 'Any', '5,000+', '10,000+' or '50,000+'
   async filterByMinEnrollments(option: string) {
     const dropdown = this.page.locator('#enrollDropdown');
 
@@ -48,6 +47,21 @@ export class TablePage {
     await expect(dropdown.locator('.dropdown-label')).toHaveText(option);
   }
 
+  // label is the visible text: 'ID', 'Course Name', 'Language', 'Level' or 'Enrollments'
+  async sortBy(label: string) {
+    await this.page.locator('#sortBy').selectOption({ label });
+  }
+   async reset() {
+    await this.page.getByRole('button', { name: 'Reset filters' }).click();
+  }
+
+  // Current ticked state of the Level checkboxes, in the order Beginner, Intermediate, Advanced
+  async levelStates(): Promise<boolean[]> {
+    const group = this.page.getByRole('group', { name: 'Level' });
+    return Promise.all(
+      ALL_LEVELS.map(level => group.getByLabel(level, { exact: true }).isChecked()),
+    );
+  }
   async rowCount(): Promise<number> {
     return this.visibleRows.count();
   }

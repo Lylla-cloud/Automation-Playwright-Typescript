@@ -13,6 +13,22 @@ const enrollmentFilters = [
   { option: '50,000+', min: 50000 },
 ];
 
+const sortOptions = [
+  { label: 'ID', column: 1, numeric: true },
+  { label: 'Course Name', column: 2, numeric: false },
+  { label: 'Language', column: 3, numeric: false },
+  { label: 'Level', column: 4, numeric: false },
+  { label: 'Enrollments', column: 5, numeric: true },
+];
+
+const isAscendingNumbers = (values: number[]) =>
+  values.every((v, i) => i === 0 || values[i - 1] <= v);
+
+const isAscendingText = (values: string[]) =>
+  values.every(
+    (v, i) => i === 0 || values[i - 1].localeCompare(v, 'en', { sensitivity: 'base' }) <= 0,
+  );
+
 // True when at least one row is visible and every visible row has `value` in the given column
 const columnIs = (tablePage: TablePage, column: number, value: string) => async () => {
   const values = await tablePage.columnValues(column);
@@ -97,5 +113,43 @@ test.describe('Table page', () => {
 
     await tablePage.filterByMinEnrollments('Any');
     await expect.poll(() => tablePage.rowCount()).toBe(total);
+  });
+
+  for (const { label, column, numeric } of sortOptions) {
+    test(`sorting by ${label} orders that column ascending`, async ({ tablePage }) => {
+      await tablePage.sortBy(label);
+
+      await expect
+        .poll(
+          async () => {
+            const raw = await tablePage.columnValues(column);
+            if (raw.length === 0) return false;
+            return numeric
+              ? isAscendingNumbers(raw.map(v => Number(v.replace(/,/g, ''))))
+              : isAscendingText(raw);
+          },
+          { message: `${label} column should be sorted ascending` },
+        )
+        .toBe(true);
+    });
+  }
+
+  test('Reset restores the default filters and all rows', async ({ page, tablePage }) => {
+    const total = await tablePage.rowCount();
+    const initialLevels = await tablePage.levelStates();
+
+    await tablePage.filterByLanguage('Python');
+    await tablePage.filterByLevel('Beginner');
+    await tablePage.filterByMinEnrollments('5,000+');
+    await expect.poll(() => tablePage.rowCount()).toBeLessThan(total);
+
+    await tablePage.reset();
+
+    await expect.poll(() => tablePage.rowCount()).toBe(total);
+    await expect(
+      page.getByRole('group', { name: 'Language' }).getByLabel('Any', { exact: true }),
+    ).toBeChecked();
+    await expect(page.locator('#enrollDropdown .dropdown-label')).toHaveText('Any');
+    expect(await tablePage.levelStates()).toEqual(initialLevels);
   });
 });
