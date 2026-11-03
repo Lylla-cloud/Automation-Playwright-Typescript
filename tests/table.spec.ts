@@ -35,18 +35,18 @@ const columnIs = (tablePage: TablePage, column: number, value: string) => async 
   return values.length > 0 && values.every(v => v === value);
 };
 
-test.describe('Table page', () => {
+test.describe('Table page', { tag: '@regression' }, () => {
   test.beforeEach(async ({ tablePage }) => {
     await tablePage.goto();
   });
 
-  test('table has the expected headers', async ({ tablePage }) => {
+  test('table has the expected headers', { tag: '@smoke' }, async ({ tablePage }) => {
     await expect(tablePage.headers).toHaveText([
       'ID', 'Course Name', 'Language', 'Level', 'Enrollments', 'Link',
     ]);
   });
 
-  test('filtering by Python shows only Python courses', async ({ tablePage }) => {
+  test('filtering by Python shows only Python courses', { tag: '@smoke' }, async ({ tablePage }) => {
     await tablePage.filterByLanguage('Python');
 
     await expect

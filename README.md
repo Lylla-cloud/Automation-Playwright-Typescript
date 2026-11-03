@@ -89,14 +89,20 @@ Tests run automatically on every push and pull request via GitHub Actions. The H
   ```bash
   npx playwright show-trace path/to/trace.zip
   ```
+## Test tags
+
+| Tag | Purpose | Command |
+|-----|---------|---------|
+| `@smoke` | Critical paths, runs in about a minute | `npm run test:smoke` |
+| `@regression` | Full suite, includes the smoke tests | `npm run test:regression` |
 
 ## Roadmap
 
 - [ ] Data-driven negative login tests
 - [ ] Logout scenario
 - [x] Table filters: language, level (checkbox), combined
-- [ ] Enrollment filter, sorting and reset
-- [ ] Test tagging for smoke and regression runs
+- [x] Enrollment filter, sorting and reset
+- [x] Test tagging for smoke and regression runs
 
 ## Author
 Lylla
