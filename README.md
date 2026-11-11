@@ -77,8 +77,7 @@ Traces and screenshots are captured on failure and included in the HTML report.
 
 ## Continuous integration
 
-Tests run automatically on every push and pull request via GitHub Actions. The HTML report is uploaded as a build artifact on each run (open the run in the **Actions** tab and download `playwright-report`).
-Pull requests run the `@smoke` subset. Pushes to `main`, a nightly schedule and manual runs execute the full regression suite.
+Tests run automatically via GitHub Actions. Pull requests run the `@smoke` subset for fast feedback. Pushes to `main`, a nightly schedule and manual runs execute the full regression suite. The HTML report is uploaded as a build artifact on each run (open the run in the **Actions** tab and download `playwright-report`).
 
 ## Useful tools
 
@@ -104,6 +103,10 @@ Pull requests run the `@smoke` subset. Pushes to `main`, a nightly schedule and 
 - [x] Table filters: language, level (checkbox), combined
 - [x] Enrollment filter, sorting and reset
 - [x] Test tagging for smoke and regression runs
+
+## Related projects
+
+- [OrangeHRM Playwright tests](https://github.com/Lylla-cloud/playwright1): dashboard test plan and Playwright setup for the OrangeHRM public demo
 
 ## Author
 Lylla
