@@ -2,12 +2,12 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   schedule:
-    - cron: '0 3 * * *'   # every day at 03:00 UTC (06:00 Nairobi)
-  workflow_dispatch:       # adds a "Run workflow" button in the Actions tab
+    - cron: '0 3 * * *' # every day at 03:00 UTC (06:00 Nairobi)
+  workflow_dispatch: # adds a "Run workflow" button in the Actions tab
 
 jobs:
   test:
