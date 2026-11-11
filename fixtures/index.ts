@@ -12,10 +12,18 @@ type Pages = {
 };
 
 export const test = base.extend<Pages>({
-  loginPage: async ({ page }, use) => { await use(new LoginPage(page)); },
-  loggedInPage: async ({ page }, use) => { await use(new LoggedInPage(page)); },
-  exceptionsPage: async ({ page }, use) => { await use(new ExceptionsPage(page)); },
-  tablePage: async ({ page }, use) => { await use(new TablePage(page)); },
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+  loggedInPage: async ({ page }, use) => {
+    await use(new LoggedInPage(page));
+  },
+  exceptionsPage: async ({ page }, use) => {
+    await use(new ExceptionsPage(page));
+  },
+  tablePage: async ({ page }, use) => {
+    await use(new TablePage(page));
+  },
 });
 
 export { expect } from '@playwright/test';

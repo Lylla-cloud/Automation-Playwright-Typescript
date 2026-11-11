@@ -51,7 +51,7 @@ export class TablePage {
   async sortBy(label: string) {
     await this.page.locator('#sortBy').selectOption({ label });
   }
-   async reset() {
+  async reset() {
     await this.page.getByRole('button', { name: 'Reset filters' }).click();
   }
 
@@ -59,7 +59,7 @@ export class TablePage {
   async levelStates(): Promise<boolean[]> {
     const group = this.page.getByRole('group', { name: 'Level' });
     return Promise.all(
-      ALL_LEVELS.map(level => group.getByLabel(level, { exact: true }).isChecked()),
+      ALL_LEVELS.map((level) => group.getByLabel(level, { exact: true }).isChecked()),
     );
   }
   async rowCount(): Promise<number> {
@@ -68,11 +68,11 @@ export class TablePage {
 
   async columnValues(columnIndex: number): Promise<string[]> {
     const cells = this.visibleRows.locator(`td:nth-child(${columnIndex})`);
-    return (await cells.allTextContents()).map(t => t.trim());
+    return (await cells.allTextContents()).map((t) => t.trim());
   }
 
   async columnNumbers(columnIndex: number): Promise<number[]> {
     const values = await this.columnValues(columnIndex);
-    return values.map(v => Number(v.replace(/,/g, '')));
+    return values.map((v) => Number(v.replace(/,/g, '')));
   }
 }

@@ -6,11 +6,11 @@ End-to-end test automation for [Practice Test Automation](https://practicetestau
 
 ## What is covered
 
-| Area | Page under test | Scenarios |
-|------|-----------------|-----------|
-| Login | `/practice-test-login/` | Valid login, invalid username, invalid password |
+| Area       | Page under test              | Scenarios                                                 |
+| ---------- | ---------------------------- | --------------------------------------------------------- |
+| Login      | `/practice-test-login/`      | Valid login, invalid username, invalid password           |
 | Exceptions | `/practice-test-exceptions/` | Edit and save Row 1, add and save Row 2 (delayed element) |
-| Table | `/practice-test-table/` | Header validation, language, level and combined filters |
+| Table      | `/practice-test-table/`      | Header validation, language, level and combined filters   |
 
 ## Project structure
 
@@ -89,12 +89,13 @@ Tests run automatically via GitHub Actions. Pull requests run the `@smoke` subse
   ```bash
   npx playwright show-trace path/to/trace.zip
   ```
+
 ## Test tags
 
-| Tag | Purpose | Command |
-|-----|---------|---------|
-| `@smoke` | Critical paths, runs in about a minute | `npm run test:smoke` |
-| `@regression` | Full suite, includes the smoke tests | `npm run test:regression` |
+| Tag           | Purpose                                | Command                   |
+| ------------- | -------------------------------------- | ------------------------- |
+| `@smoke`      | Critical paths, runs in about a minute | `npm run test:smoke`      |
+| `@regression` | Full suite, includes the smoke tests   | `npm run test:regression` |
 
 ## Roadmap
 
@@ -109,4 +110,5 @@ Tests run automatically via GitHub Actions. Pull requests run the `@smoke` subse
 - [OrangeHRM Playwright tests](https://github.com/Lylla-cloud/playwright1): dashboard test plan and Playwright setup for the OrangeHRM public demo
 
 ## Author
+
 Lylla

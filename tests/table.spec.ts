@@ -32,7 +32,7 @@ const isAscendingText = (values: string[]) =>
 // True when at least one row is visible and every visible row has `value` in the given column
 const columnIs = (tablePage: TablePage, column: number, value: string) => async () => {
   const values = await tablePage.columnValues(column);
-  return values.length > 0 && values.every(v => v === value);
+  return values.length > 0 && values.every((v) => v === value);
 };
 
 test.describe('Table page', { tag: '@regression' }, () => {
@@ -42,19 +42,28 @@ test.describe('Table page', { tag: '@regression' }, () => {
 
   test('table has the expected headers', { tag: '@smoke' }, async ({ tablePage }) => {
     await expect(tablePage.headers).toHaveText([
-      'ID', 'Course Name', 'Language', 'Level', 'Enrollments', 'Link',
+      'ID',
+      'Course Name',
+      'Language',
+      'Level',
+      'Enrollments',
+      'Link',
     ]);
   });
 
-  test('filtering by Python shows only Python courses', { tag: '@smoke' }, async ({ tablePage }) => {
-    await tablePage.filterByLanguage('Python');
+  test(
+    'filtering by Python shows only Python courses',
+    { tag: '@smoke' },
+    async ({ tablePage }) => {
+      await tablePage.filterByLanguage('Python');
 
-    await expect
-      .poll(columnIs(tablePage, LANGUAGE_COLUMN, 'Python'), {
-        message: 'all visible rows should be Python',
-      })
-      .toBe(true);
-  });
+      await expect
+        .poll(columnIs(tablePage, LANGUAGE_COLUMN, 'Python'), {
+          message: 'all visible rows should be Python',
+        })
+        .toBe(true);
+    },
+  );
 
   for (const level of levels) {
     test(`filtering by ${level} shows only ${level} courses`, async ({ tablePage }) => {
@@ -93,15 +102,17 @@ test.describe('Table page', { tag: '@regression' }, () => {
   });
 
   for (const { option, min } of enrollmentFilters) {
-    test(`min enrollments ${option} keeps only courses with ${min} or more`, async ({ tablePage }) => {
+    test(`min enrollments ${option} keeps only courses with ${min} or more`, async ({
+      tablePage,
+    }) => {
       const before = await tablePage.columnNumbers(ENROLLMENTS_COLUMN);
-      const expectedCount = before.filter(n => n >= min).length;
+      const expectedCount = before.filter((n) => n >= min).length;
 
       await tablePage.filterByMinEnrollments(option);
 
       await expect.poll(() => tablePage.rowCount()).toBe(expectedCount);
       const after = await tablePage.columnNumbers(ENROLLMENTS_COLUMN);
-      expect(after.every(n => n >= min)).toBe(true);
+      expect(after.every((n) => n >= min)).toBe(true);
     });
   }
 
@@ -125,7 +136,7 @@ test.describe('Table page', { tag: '@regression' }, () => {
             const raw = await tablePage.columnValues(column);
             if (raw.length === 0) return false;
             return numeric
-              ? isAscendingNumbers(raw.map(v => Number(v.replace(/,/g, ''))))
+              ? isAscendingNumbers(raw.map((v) => Number(v.replace(/,/g, ''))))
               : isAscendingText(raw);
           },
           { message: `${label} column should be sorted ascending` },
